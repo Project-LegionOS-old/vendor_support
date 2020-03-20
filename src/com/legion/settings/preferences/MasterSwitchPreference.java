@@ -18,7 +18,8 @@ package com.legion.settings.preferences;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import androidx.preference.PreferenceViewHolder;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.View;
@@ -26,6 +27,8 @@ import android.widget.Switch;
 
 import com.legion.support.R;
 
+import androidx.core.content.res.TypedArrayUtils;
+import androidx.preference.PreferenceViewHolder;
 /**
  * A custom preference that provides inline switch toggle. It has a mandatory field for title, and
  * optional fields for icon and sub-text.
@@ -36,21 +39,27 @@ public class MasterSwitchPreference extends TwoTargetPreference {
     private boolean mChecked;
     private boolean mEnableSwitch = true;
 
+    private final Vibrator mVibrator;
+
     public MasterSwitchPreference(Context context, AttributeSet attrs,
                                   int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+
+        mVibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
     }
 
     public MasterSwitchPreference(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+        this(context, attrs, defStyleAttr, 0);
     }
 
     public MasterSwitchPreference(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, TypedArrayUtils.getAttr(context,
+                androidx.preference.R.attr.switchPreferenceStyle,
+                android.R.attr.switchPreferenceStyle));
     }
 
     public MasterSwitchPreference(Context context) {
-        super(context);
+        this(context, null);
     }
 
     @Override
@@ -75,6 +84,7 @@ public class MasterSwitchPreference extends TwoTargetPreference {
                     } else {
                         persistBoolean(mChecked);
                     }
+                    mVibrator.vibrate(VibrationEffect.get(VibrationEffect.EFFECT_CLICK));
                 }
             });
         }
