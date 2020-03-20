@@ -18,7 +18,6 @@ package com.legion.settings.preferences;
 
 import android.content.Context;
 import android.provider.Settings;
-import androidx.preference.SwitchPreference;
 import android.util.AttributeSet;
 
 public class GlobalSettingSwitchPreference extends SwitchPreference {
