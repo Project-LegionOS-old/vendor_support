@@ -30,8 +30,6 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.VibrationEffect;
-import android.os.Vibrator;
-import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -42,6 +40,8 @@ import android.widget.LinearLayout;
 
 import com.legion.support.R;
 import androidx.preference.*;
+
+import com.ssos.support.util.VibrationUtils;
 
 /**
  * A preference type that allows a user to choose a time
@@ -70,7 +70,6 @@ public class ColorPickerPreference extends Preference implements
     private EditText mEditText;
 
     private final Context mContext;
-    private final Vibrator mVibrator;
 
     //private boolean mIsCrappyLedDevice;
 
@@ -93,7 +92,6 @@ public class ColorPickerPreference extends Preference implements
         init(context, attrs);
 
         mContext = context;
-        mVibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
     }
 
     @Override
@@ -189,7 +187,7 @@ public class ColorPickerPreference extends Preference implements
             @Override
             public void onClick(View v) {
                 onColorChanged(mDefaultValue);
-                doHapticFeedback();
+                VibrationUtils.doHapticFeedback(mContext, VibrationEffect.EFFECT_CLICK);
             }
         });
         // sorcery for a linear layout ugh
@@ -431,14 +429,5 @@ public class ColorPickerPreference extends Preference implements
         shape.setIntrinsicWidth(size);
         shape.getPaint().setColor(color);
         return shape;
-    }
-
-    private void doHapticFeedback() {
-        final boolean hapticEnabled = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.HAPTIC_FEEDBACK_ENABLED, 1) != 0;
-
-        if (hapticEnabled) {
-            mVibrator.vibrate(VibrationEffect.get(VibrationEffect.EFFECT_CLICK));
-        }
     }
 }
