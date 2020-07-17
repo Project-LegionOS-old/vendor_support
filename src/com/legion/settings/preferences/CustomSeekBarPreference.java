@@ -88,10 +88,13 @@ public class CustomSeekBarPreference extends Preference implements SeekBar.OnSee
         } catch (Exception e) {
             Log.e(TAG, "Invalid interval value", e);
         }
+
         mMinValue = attrs.getAttributeIntValue(SETTINGS_NS, "min", mMinValue);
         mMaxValue = attrs.getAttributeIntValue(ANDROIDNS, "max", mMaxValue);
-        if (mMaxValue < mMinValue)
+        if (mMaxValue < mMinValue) {
             mMaxValue = mMinValue;
+        }
+
         String defaultValue = attrs.getAttributeValue(ANDROIDNS, "defaultValue");
         mDefaultValueExists = defaultValue != null && !defaultValue.isEmpty();
         if (mDefaultValueExists) {
@@ -125,17 +128,13 @@ public class CustomSeekBarPreference extends Preference implements SeekBar.OnSee
     @Override
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
-        try
-        {
-            // move our seekbar to the new view we've been given
+        try {
             ViewParent oldContainer = mSeekBar.getParent();
             ViewGroup newContainer = (ViewGroup) holder.findViewById(R.id.seekbar);
             if (oldContainer != newContainer) {
-                // remove the seekbar from the old view
                 if (oldContainer != null) {
                     ((ViewGroup) oldContainer).removeView(mSeekBar);
                 }
-                // remove the existing seekbar (there may not be one) and add ours
                 newContainer.removeAllViews();
                 newContainer.addView(mSeekBar, ViewGroup.LayoutParams.FILL_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -179,31 +178,36 @@ public class CustomSeekBarPreference extends Preference implements SeekBar.OnSee
     protected void updateValueViews() {
         if (mValueTextView != null) {
             mValueTextView.setText(getContext().getString(R.string.custom_seekbar_value,
-                (!mTrackingTouch || mContinuousUpdates ? getTextValue(mValue) +
-                (mDefaultValueExists && mValue == mDefaultValue ? " (" +
-                getContext().getString(R.string.custom_seekbar_default_value) + ")" : "")
+                    (!mTrackingTouch || mContinuousUpdates ? getTextValue(mValue) +
+                    (mDefaultValueExists && mValue == mDefaultValue ? " (" +
+                    getContext().getString(R.string.custom_seekbar_default_value) + ")" : "")
                     : getTextValue(mTrackingValue))));
         }
+
         if (mResetImageView != null) {
-            if (!mDefaultValueExists || mValue == mDefaultValue || mTrackingTouch)
+            if (!mDefaultValueExists || mValue == mDefaultValue || mTrackingTouch) {
                 mResetImageView.setVisibility(View.INVISIBLE);
-            else
+            } else {
                 mResetImageView.setVisibility(View.VISIBLE);
+            }
         }
+
         if (mMinusImageView != null) {
             if (mValue == mMinValue || mTrackingTouch) {
                 mMinusImageView.setClickable(false);
                 mMinusImageView.setColorFilter(getContext().getColor(R.color.disabled_text_color),
-                    PorterDuff.Mode.MULTIPLY);
+                        PorterDuff.Mode.MULTIPLY);
             } else {
                 mMinusImageView.setClickable(true);
                 mMinusImageView.clearColorFilter();
             }
         }
+
         if (mPlusImageView != null) {
             if (mValue == mMaxValue || mTrackingTouch) {
                 mPlusImageView.setClickable(false);
-                mPlusImageView.setColorFilter(getContext().getColor(R.color.disabled_text_color), PorterDuff.Mode.MULTIPLY);
+                mPlusImageView.setColorFilter(getContext().getColor(R.color.disabled_text_color),
+                        PorterDuff.Mode.MULTIPLY);
             } else {
                 mPlusImageView.setClickable(true);
                 mPlusImageView.clearColorFilter();
@@ -212,7 +216,6 @@ public class CustomSeekBarPreference extends Preference implements SeekBar.OnSee
     }
 
     protected void changeValue(int newValue) {
-        // for subclasses
     }
 
     @Override
@@ -223,12 +226,10 @@ public class CustomSeekBarPreference extends Preference implements SeekBar.OnSee
             updateValueViews();
             doHapticFeedback(VibrationEffect.EFFECT_TEXTURE_TICK);
         } else if (mValue != newValue) {
-            // change rejected, revert to the previous value
             if (!callChangeListener(newValue)) {
                 mSeekBar.setProgress(getSeekValue(mValue));
                 return;
             }
-            // change accepted, store it
             changeValue(newValue);
             persistInt(newValue);
 
@@ -246,8 +247,9 @@ public class CustomSeekBarPreference extends Preference implements SeekBar.OnSee
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         mTrackingTouch = false;
-        if (!mContinuousUpdates)
+        if (!mContinuousUpdates) {
             onProgressChanged(mSeekBar, getSeekValue(mTrackingValue), false);
+        }
         notifyChanged();
     }
 
@@ -270,31 +272,28 @@ public class CustomSeekBarPreference extends Preference implements SeekBar.OnSee
         int id = v.getId();
         if (id == R.id.reset) {
             setValue(mDefaultValue, true);
-            //Toast.makeText(getContext(), getContext().getString(R.string.custom_seekbar_default_value_is_set),
-            //        Toast.LENGTH_LONG).show();
         } else if (id == R.id.minus) {
             setValue(mMaxValue - mMinValue > mInterval * 2 && mMaxValue + mMinValue < mValue * 2 ? Math.floorDiv(mMaxValue + mMinValue, 2) : mMinValue, true);
         } else if (id == R.id.plus) {
-                setValue(mMaxValue - mMinValue > mInterval * 2 && mMaxValue + mMinValue > mValue * 2 ? -1 * Math.floorDiv(-1 * (mMaxValue + mMinValue), 2) : mMaxValue, true);
+            setValue(mMaxValue - mMinValue > mInterval * 2 && mMaxValue + mMinValue > mValue * 2 ? -1 * Math.floorDiv(-1 * (mMaxValue + mMinValue), 2) : mMaxValue, true);
         }
         return true;
     }
 
-    // dont need too much shit about initial and default values
-    // its all done in constructor already
-
     @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-        if (restoreValue)
+        if (restoreValue) {
             mValue = getPersistedInt(mValue);
+        }
     }
 
     @Override
     public void setDefaultValue(Object defaultValue) {
-        if (defaultValue instanceof Integer)
+        if (defaultValue instanceof Integer) {
             setDefaultValue((Integer) defaultValue, mSeekBar != null);
-        else
+        } else {
             setDefaultValue(defaultValue == null ? (String) null : defaultValue.toString(), mSeekBar != null);
+        }
     }
 
     public void setDefaultValue(int newValue, boolean update) {
@@ -302,16 +301,18 @@ public class CustomSeekBarPreference extends Preference implements SeekBar.OnSee
         if (!mDefaultValueExists || mDefaultValue != newValue) {
             mDefaultValueExists = true;
             mDefaultValue = newValue;
-            if (update)
+            if (update) {
                 updateValueViews();
+            }
         }
     }
 
     public void setDefaultValue(String newValue, boolean update) {
         if (mDefaultValueExists && (newValue == null || newValue.isEmpty())) {
             mDefaultValueExists = false;
-            if (update)
+            if (update) {
                 updateValueViews();
+            }
         } else if (newValue != null && !newValue.isEmpty()) {
             setDefaultValue(Integer.parseInt(newValue), update);
         }
@@ -329,16 +330,19 @@ public class CustomSeekBarPreference extends Preference implements SeekBar.OnSee
 
     public void setValue(int newValue) {
         mValue = getLimitedValue(newValue);
-        if (mSeekBar != null) mSeekBar.setProgress(getSeekValue(mValue));
+        if (mSeekBar != null) {
+            mSeekBar.setProgress(getSeekValue(mValue));
+        }
     }
 
     public void setValue(int newValue, boolean update) {
         newValue = getLimitedValue(newValue);
         if (mValue != newValue) {
-            if (update)
+            if (update) {
                 mSeekBar.setProgress(getSeekValue(newValue));
-            else
+            } else {
                 mValue = newValue;
+            }
         }
     }
 
@@ -346,11 +350,7 @@ public class CustomSeekBarPreference extends Preference implements SeekBar.OnSee
         return mValue;
     }
 
-    // need some methods here to set/get other attrs at runtime,
-    // but who really need this ...
-
     public void refresh(int newValue) {
-        // this will ...
         setValue(newValue, mSeekBar != null);
     }
 
