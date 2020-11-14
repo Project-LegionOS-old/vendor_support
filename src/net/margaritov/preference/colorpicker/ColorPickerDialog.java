@@ -30,7 +30,7 @@ import android.view.KeyEvent;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
-import com.android.settings.R;
+import com.legion.support.R;
 
 public class ColorPickerDialog extends AlertDialog implements ColorPickerView.OnColorChangedListener, View.OnClickListener, View.OnKeyListener {
 
