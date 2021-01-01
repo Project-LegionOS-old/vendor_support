@@ -47,7 +47,6 @@ public class ColorPickerDialog extends AlertDialog implements ColorPickerView.On
 
     ColorPickerDialog(Context context, int initialColor) {
         super(context);
-
         init(initialColor);
     }
 
