@@ -30,7 +30,7 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.android.internal.util.ssos.Utils;
+import com.android.internal.util.legion.Utils;
 
 import com.legion.support.R;
 import com.legion.settings.colorpicker.ColorPickerDialog;

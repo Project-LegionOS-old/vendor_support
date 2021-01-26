@@ -35,7 +35,7 @@ import com.legion.support.R;
 import androidx.core.content.res.TypedArrayUtils;
 import androidx.preference.*;
 
-import com.ssos.support.util.VibrationUtils;
+import com.legion.settings.util.VibrationUtils;
 
 public class CustomSeekBarPreference extends Preference implements SeekBar.OnSeekBarChangeListener,
         View.OnClickListener, View.OnLongClickListener {
