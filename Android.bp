@@ -6,13 +6,17 @@ android_library {
         enabled: false,
     },
 
-    srcs: ["src/**/*.java"],
+    srcs: ["src/**/*.java",
+    "src/**/*.kt"],
 
     static_libs: [
         "androidx.core_core",
         "androidx.preference_preference",
         "androidx.appcompat_appcompat",
         "androidx.recyclerview_recyclerview",
+        "kotlinx-coroutines-android",
+        "kotlinx-coroutines-core",
+        "androidx.palette_palette",
     ],
 
     resource_dirs: ["res"],
