@@ -40,6 +40,8 @@ public class UpdaterColors {
     final Context bruh = ActivityThread.currentApplication();
     boolean useMonet = Settings.System.getInt(bruh.getContentResolver(),
                 Settings.System.MONET_TOGGLE, 1) == 1;
+    boolean darkProfile = Settings.System.getInt(bruh.getContentResolver(),
+                Settings.System.POWER_PROFILE_TYPE, 1) != 0;
 
     public int mainBG(Context context){
         WallpaperManager wallpaperManager = WallpaperManager.getInstance(context);
@@ -121,11 +123,21 @@ public class UpdaterColors {
 
     public boolean isDarkM(Context context){
         UiModeManager mUiModeManager = context.getSystemService(UiModeManager.class);
-        if (mUiModeManager.getNightMode() != UiModeManager.MODE_NIGHT_NO){
+        if (mUiModeManager.getNightMode() != UiModeManager.MODE_NIGHT_NO || isPowerSave(context)){
             // dark
             return true;
         } else{
             // light
+            return false;
+        }
+    }
+
+    public boolean isPowerSave(Context context){
+        PowerManager mPowerManager = context.getSystemService(PowerManager.class);
+        if(mPowerManager.isPowerSaveMode() && darkProfile){
+            return true;
+        }
+        else{
             return false;
         }
     }
