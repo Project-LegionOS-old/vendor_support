@@ -61,6 +61,13 @@ public class colorgiber {
         return k;
     }
     
+    public Drawable noContextWallMoment(){
+        final Context context = ActivityThread.currentApplication();
+        WallpaperManager wallpaperManager = WallpaperManager.getInstance(context);
+        Drawable wallpaperDrawable = wallpaperManager.getDrawable();
+        return wallpaperDrawable;
+    }
+
     public int darkDedeBhayPlz(int color, int whichgayp, int whichgayc){
         ColorScheme colorscheme = new ColorScheme(color, false);
         int k = colorscheme.getColor(whichgayp, whichgayc);
