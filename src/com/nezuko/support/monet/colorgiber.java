@@ -28,35 +28,21 @@ import android.content.Context;
 import android.app.WallpaperManager;
 import com.android.internal.util.nezuko.NezukoUtils;
 import android.app.ActivityThread;
+import com.nezuko.support.monet.utils.Support;
 
 public class colorgiber {
 
-    int defaultColor = 0x000000;
-
-    public int fuckYouKotlin(int color, int whichgayp, int whichgayc)
-    {
-        ColorScheme colorscheme = new ColorScheme(color, false);
-        int k = colorscheme.getColor(whichgayp, whichgayc);
-        return k;
-    }
+    Support sup = new Support();
 
     public int noSysPriviledgeMoment(int whichgayp, int whichgayc, Context context){
-        WallpaperManager wallpaperManager = WallpaperManager.getInstance(context);
-        Drawable wallpaperDrawable = wallpaperManager.getDrawable();
-        Bitmap bitmap = ((BitmapDrawable)wallpaperDrawable).getBitmap();
-        Palette p = Palette.from(bitmap).generate();
-        ColorScheme colorscheme = new ColorScheme(p.getDominantColor(defaultColor), false);
+        ColorScheme colorscheme = sup.scheme(context);
         int k = colorscheme.getColor(whichgayp, whichgayc);
         return k;
     }
 
     public int noContextMoment(int whichgayp, int whichgayc){
         final Context context = ActivityThread.currentApplication();
-        WallpaperManager wallpaperManager = WallpaperManager.getInstance(context);
-        Drawable wallpaperDrawable = wallpaperManager.getDrawable();
-        Bitmap bitmap = ((BitmapDrawable)wallpaperDrawable).getBitmap();
-        Palette p = Palette.from(bitmap).generate();
-        ColorScheme colorscheme = new ColorScheme(p.getDominantColor(defaultColor), false);
+        ColorScheme colorscheme = sup.scheme(context);
         int k = colorscheme.getColor(whichgayp, whichgayc);
         return k;
     }
@@ -66,20 +52,6 @@ public class colorgiber {
         WallpaperManager wallpaperManager = WallpaperManager.getInstance(context);
         Drawable wallpaperDrawable = wallpaperManager.getDrawable();
         return wallpaperDrawable;
-    }
-
-    public int darkDedeBhayPlz(int color, int whichgayp, int whichgayc){
-        ColorScheme colorscheme = new ColorScheme(color, false);
-        int k = colorscheme.getColor(whichgayp, whichgayc);
-
-        int a = Color.alpha(k);
-        int r = Math.round(Color.red(k) * 0.3f);
-        int g = Math.round(Color.green(k) * 0.3f);
-        int b = Math.round(Color.blue(k) * 0.3f);
-        return Color.argb(a,
-                Math.min(r,255),
-                Math.min(g,255),
-                Math.min(b,255));
     }
 
 }

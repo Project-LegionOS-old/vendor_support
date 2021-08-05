@@ -38,6 +38,7 @@ import com.nezuko.support.monet.utils.Support;
 public class SettingsColors {
 
     Support sup = new Support();
+    final Context bruh = ActivityThread.currentApplication();
     boolean useMonet = Settings.System.getInt(bruh.getContentResolver(),
                 Settings.System.MONET_TOGGLE, 1) == 1;
 
