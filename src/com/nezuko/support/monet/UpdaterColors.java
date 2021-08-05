@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Android public Source Project
+ * Copyright (C) 2021 NezukoOS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,113 +33,67 @@ import android.os.PowerManager;
 import android.os.UserHandle;
 import android.provider.Settings;
 import android.graphics.Color;
+import com.nezuko.support.monet.utils.Support;
 
 public class UpdaterColors {
 
-    int defaultColor = 0x000000;
-    final Context bruh = ActivityThread.currentApplication();
+    Support sup = new Support();
     boolean useMonet = Settings.System.getInt(bruh.getContentResolver(),
                 Settings.System.MONET_TOGGLE, 1) == 1;
-    boolean darkProfile = Settings.System.getInt(bruh.getContentResolver(),
-                Settings.System.POWER_PROFILE_TYPE, 1) != 0;
 
     public int mainBG(Context context){
-        WallpaperManager wallpaperManager = WallpaperManager.getInstance(context);
-        Drawable wallpaperDrawable = wallpaperManager.getDrawable();
-        Bitmap bitmap = ((BitmapDrawable)wallpaperDrawable).getBitmap();
-        Palette p = Palette.from(bitmap).generate();
-        ColorScheme colorscheme = new ColorScheme(p.getDominantColor(defaultColor), false);
-        int k = isDarkM(context) ? Color.BLACK : Color.WHITE;
+        ColorScheme colorscheme = sup.scheme(context);
+        int k = sup.isDarkM(context) ? Color.BLACK : Color.WHITE;
         if(useMonet){
-            k = isDarkM(context) ? colorscheme.getColor(4, 10) : colorscheme.getColor(4, 0);
+            k = sup.isDarkM(context) ? colorscheme.getColor(4, 10) : colorscheme.getColor(4, 0);
         }
         return k;
     }
 
     public int secBG(Context context){
-        WallpaperManager wallpaperManager = WallpaperManager.getInstance(context);
-        Drawable wallpaperDrawable = wallpaperManager.getDrawable();
-        Bitmap bitmap = ((BitmapDrawable)wallpaperDrawable).getBitmap();
-        Palette p = Palette.from(bitmap).generate();
-        ColorScheme colorscheme = new ColorScheme(p.getDominantColor(defaultColor), false);
-        int k = isDarkM(context) ? Color.parseColor("#161616") : Color.parseColor("#f2f2f2"); 
+        ColorScheme colorscheme = sup.scheme(context);
+        int k = sup.isDarkM(context) ? Color.parseColor("#161616") : Color.parseColor("#f2f2f2"); 
         if(useMonet){
-            k = isDarkM(context) ? colorscheme.getColor(4, 9) : colorscheme.getColor(4, 1);
+            k = sup.isDarkM(context) ? colorscheme.getColor(4, 9) : colorscheme.getColor(4, 1);
         }
         return k;
     }
 
     public int primaryCol(Context context){
-        WallpaperManager wallpaperManager = WallpaperManager.getInstance(context);
-        Drawable wallpaperDrawable = wallpaperManager.getDrawable();
-        Bitmap bitmap = ((BitmapDrawable)wallpaperDrawable).getBitmap();
-        Palette p = Palette.from(bitmap).generate();
-        ColorScheme colorscheme = new ColorScheme(p.getDominantColor(defaultColor), false);
-        int k = isDarkM(context) ? Color.WHITE : Color.BLACK;
+        ColorScheme colorscheme = sup.scheme(context);
+        int k = sup.isDarkM(context) ? Color.WHITE : Color.BLACK;
         if (useMonet){
-            k = isDarkM(context) ? colorscheme.getColor(3, 5) : colorscheme.getColor(1, 7);
+            k = sup.isDarkM(context) ? colorscheme.getColor(3, 5) : colorscheme.getColor(1, 7);
         }
         return k;
     }
 
     public int secondaryCol(Context context){
-        WallpaperManager wallpaperManager = WallpaperManager.getInstance(context);
-        Drawable wallpaperDrawable = wallpaperManager.getDrawable();
-        Bitmap bitmap = ((BitmapDrawable)wallpaperDrawable).getBitmap();
-        Palette p = Palette.from(bitmap).generate();
-        ColorScheme colorscheme = new ColorScheme(p.getDominantColor(defaultColor), false);
+        ColorScheme colorscheme = sup.scheme(context);
         int k = Color.GRAY;
         if (useMonet){
-            k = isDarkM(context) ? colorscheme.getColor(2, 2) : colorscheme.getColor(1, 10);
+            k = sup.isDarkM(context) ? colorscheme.getColor(2, 2) : colorscheme.getColor(1, 10);
         }
         return k;
     }
 
     public int iconCol(Context context){
-        WallpaperManager wallpaperManager = WallpaperManager.getInstance(context);
-        Drawable wallpaperDrawable = wallpaperManager.getDrawable();
-        Bitmap bitmap = ((BitmapDrawable)wallpaperDrawable).getBitmap();
-        Palette p = Palette.from(bitmap).generate();
-        ColorScheme colorscheme = new ColorScheme(p.getDominantColor(defaultColor), false);
+        ColorScheme colorscheme = sup.scheme(context);
+
         int k = NezukoUtils.getThemeAccentColor(context);
         if (useMonet){
-            k = isDarkM(context) ? colorscheme.getColor(3, 6) : colorscheme.getColor(1, 7);
+            k = sup.isDarkM(context) ? colorscheme.getColor(3, 6) : colorscheme.getColor(1, 7);
         }
         return k;
     }
 
     public int headerCol(Context context){
-        WallpaperManager wallpaperManager = WallpaperManager.getInstance(context);
-        Drawable wallpaperDrawable = wallpaperManager.getDrawable();
-        Bitmap bitmap = ((BitmapDrawable)wallpaperDrawable).getBitmap();
-        Palette p = Palette.from(bitmap).generate();
-        ColorScheme colorscheme = new ColorScheme(p.getDominantColor(defaultColor), false);
-        int k = isDarkM(context) ? Color.WHITE : Color.BLACK;
+        ColorScheme colorscheme = sup.scheme(context);
+        int k = sup.isDarkM(context) ? Color.WHITE : Color.BLACK;
         if (useMonet){
-            k = isDarkM(context) ? colorscheme.getColor(5, 0) : colorscheme.getColor(1, 7);
+            k = sup.isDarkM(context) ? colorscheme.getColor(5, 0) : colorscheme.getColor(1, 7);
         }
         return k;
-    }
-
-    public boolean isDarkM(Context context){
-        UiModeManager mUiModeManager = context.getSystemService(UiModeManager.class);
-        if (mUiModeManager.getNightMode() != UiModeManager.MODE_NIGHT_NO || isPowerSave(context)){
-            // dark
-            return true;
-        } else{
-            // light
-            return false;
-        }
-    }
-
-    public boolean isPowerSave(Context context){
-        PowerManager mPowerManager = context.getSystemService(PowerManager.class);
-        if(mPowerManager.isPowerSaveMode() && darkProfile){
-            return true;
-        }
-        else{
-            return false;
-        }
     }
 
 }
