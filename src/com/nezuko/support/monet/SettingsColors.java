@@ -46,7 +46,7 @@ public class SettingsColors {
         ColorScheme colorscheme = sup.scheme(context);
         int k = sup.isDarkM(context) ? Color.BLACK : Color.WHITE;
         if(useMonet){
-            k = sup.isDarkM(context) ? colorscheme.getColor(4, 10) : colorscheme.getColor(5, 1);
+            k = sup.isDarkM(context) ? colorscheme.getColor(5, 10) : colorscheme.getColor(5, 1);
         }
         return k;
     }
