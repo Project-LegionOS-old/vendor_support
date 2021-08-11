@@ -69,6 +69,15 @@ public class SettingsColors {
         return k;
     }
 
+    public int accentCol(Context context){
+        ColorScheme colorscheme = sup.scheme(context);
+        int k = NezukoUtils.getThemeAccentColor(context);
+        if (useMonet){
+            k =colorscheme.getColor(1, 5);
+        }
+        return k;
+    }
+
     public int iconBGCol(Context context){
         ColorScheme colorscheme = sup.scheme(context);
         int k = sup.isDarkM(context) ? Color.WHITE : Color.BLACK;
