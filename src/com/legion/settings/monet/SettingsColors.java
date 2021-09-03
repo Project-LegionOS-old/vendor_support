@@ -40,7 +40,7 @@ public class SettingsColors {
     Support sup = new Support();
     final Context bruh = ActivityThread.currentApplication();
     boolean useMonet = Settings.System.getInt(bruh.getContentResolver(),
-                Settings.System.MONET_TOGGLE, 1) == 1;
+                Settings.System.USE_WALL_ACCENT, 1) == 1;
 
     public int mainBG(Context context){
         ColorScheme colorscheme = sup.scheme(context);
