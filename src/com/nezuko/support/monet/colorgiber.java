@@ -26,7 +26,6 @@ import androidx.palette.graphics.Palette;
 import androidx.core.graphics.ColorUtils;
 import android.content.Context;
 import android.app.WallpaperManager;
-import com.android.internal.util.nezuko.NezukoUtils;
 import android.app.ActivityThread;
 import android.annotation.NonNull;
 
@@ -55,12 +54,7 @@ public class colorgiber {
         return k;
     }
 
-    public int noSysPriviledgeMoment(int whichgayp, int whichgayc, Context context){
-        int k = colorscheme.getColor(whichgayp, whichgayc);
-        return k;
-    }
-
-    public int noContextMoment(int whichgayp, int whichgayc){
+    public int noSysPriviledgeMoment(int whichgayp, int whichgayc){
         int k = colorscheme.getColor(whichgayp, whichgayc);
         return k;
     }

@@ -26,7 +26,6 @@ import androidx.palette.graphics.Palette;
 import androidx.core.graphics.ColorUtils;
 import android.content.Context;
 import android.app.WallpaperManager;
-import com.android.internal.util.nezuko.NezukoUtils;
 import android.app.ActivityThread;
 import android.app.UiModeManager;
 import android.os.PowerManager;
@@ -39,10 +38,7 @@ public class UpdaterColors {
 
     int defaultColor = 0x000000;
     final Context bruh = ActivityThread.currentApplication();
-    boolean useMonet = Settings.System.getInt(bruh.getContentResolver(),
-                Settings.System.MONET_TOGGLE, 1) == 1;
-    boolean darkProfile = Settings.System.getInt(bruh.getContentResolver(),
-                Settings.System.POWER_PROFILE_TYPE, 1) != 0;
+    boolean useMonet = true;
     private WallpaperManager wallpaperManager;
     private Drawable wallpaperDrawable;
     private Bitmap bitmap;
@@ -91,10 +87,7 @@ public class UpdaterColors {
     }
 
     public int iconCol(Context context){
-        int k = NezukoUtils.getThemeAccentColor(context);
-        if (useMonet){
-            k = isDarkM(context) ? colorscheme.getColor(3, 6) : colorscheme.getColor(1, 7);
-        }
+        int k = isDarkM(context) ? colorscheme.getColor(3, 6) : colorscheme.getColor(1, 7);
         return k;
     }
 
@@ -119,7 +112,7 @@ public class UpdaterColors {
 
     public boolean isPowerSave(Context context){
         PowerManager mPowerManager = context.getSystemService(PowerManager.class);
-        if(mPowerManager.isPowerSaveMode() && darkProfile){
+        if(mPowerManager.isPowerSaveMode()){
             return true;
         }
         else{
